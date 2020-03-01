@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from django.contrib.auth import login, logout
 from django.contrib.auth.forms import AuthenticationForm
@@ -6,6 +7,7 @@ from django.views import generic
 
 from . import forms
 
+#login, logout, signup
 
 class LoginView(generic.FormView):
     form_class = AuthenticationForm
@@ -34,3 +36,16 @@ class SignUp(generic.CreateView):
     form_class = forms.UserCreateForm
     success_url = reverse_lazy("signin")
     template_name = "accounts/signup.html"
+
+#profile 
+@login_required
+def profile(request, pk):
+    profile = get_object_or_404(models.UserProfile, pk=pk)
+
+    context = {'profile': profile}
+    return render(request, 'PMT/profile.html', context)
+
+
+
+
+

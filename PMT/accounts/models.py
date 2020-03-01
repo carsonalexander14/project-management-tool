@@ -6,12 +6,11 @@ from django.contrib.auth.models import (
 
 from django.db import models
 from django.utils import timezone
+from django.conf import settings
 
 # Create your models here.
 
-SKILLS_LIST = (
-
-)
+#users models
 
 class UserManager(BaseUserManager):
     def create_user(self, email, username, display_name=None, password=None):
@@ -66,3 +65,21 @@ class User(AbstractBaseUser, PermissionsMixin):
     
     def get_long_name(self):
         return "{} (@{})".format(self.display_name, self.username)
+
+class UserProfile(models.Model):
+    name = models.CharField(max_length=50)
+    user = models.OneToOneField(settings.AUTH_USER_MODEL,
+                                on_delete=models.CASCADE,
+                                related_name="profile")
+    bio = models.TextField(max_length=250, default="")
+
+
+#projects models
+
+#positions models
+
+#skills models
+
+#applications models
+
+#notify models

@@ -119,10 +119,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_DIRS = (
-    os.path.join(BASE_DIR, 'assets'),
-)
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'assets')]
 
 AUTH_USER_MODEL = "accounts.User"
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', '[::1]']
+
+LOGIN_REDIRECT_URL = "projects:all"
