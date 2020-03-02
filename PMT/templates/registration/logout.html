@@ -4,12 +4,11 @@
 {% block body_content %}
 <div class="bounds">
   <div class="grid-30 centered">
-    <h2>Sign Up</h2>
+    <h2>You're all logged out now! Want to Sign In?</h2>
     <form method="POST">
       {% csrf_token %}
       {{ form.as_p }}
-      <input type="submit" class="button-primary" value="Sign Up">
-      <a class="button" href="{% url 'login' %}">Log In</a>
+      <input class="button-primary" type="submit" value="Login">
     </form>
   </div>
 </div>
