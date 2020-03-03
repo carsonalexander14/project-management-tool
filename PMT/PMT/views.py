@@ -10,3 +10,5 @@ class Home(TemplateView):
         if request.user.is_authenticated():
             return HttpResponseRedirect(reverse("signin"))
         return super().get(request, *args, **kwargs)
+
+
