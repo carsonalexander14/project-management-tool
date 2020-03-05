@@ -7,6 +7,7 @@ from django.contrib.auth.models import (
 from django.db import models
 from django.utils import timezone
 from django.conf import settings
+from django.db.models.signals import post_save
 
 # Create your models here.
 
@@ -47,7 +48,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     display_name = models.CharField(max_length=140)
     bio = models.CharField(max_length=140, blank=True, default="")
     avatar = models.ImageField(blank=True, null=True)
-    skill = models.CharField(max_length=20, unique=True)
+    skill = models.CharField(max_length=20)
     date_joined = models.DateTimeField(default=timezone.now)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
@@ -71,9 +72,13 @@ class UserProfile(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL,
                                 on_delete=models.CASCADE,
                                 related_name="profile")
-    bio = models.TextField(max_length=250, default="")
+    avatar = models.ImageField(upload_to='profile_avatar', blank=True)
 
+def create_profile(sender, **kwargs):
+    if kwargs['created']:
+        user_profile = UserProfile.objects.create(user=kwargs['instance'])
 
+post_save.connect(create_profile, sender=User)
 #projects models
 
 #positions models

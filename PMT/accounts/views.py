@@ -2,6 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from django.contrib.auth import login, logout
 from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.models import User
 from django.urls import reverse_lazy
 from django.views import generic
 
@@ -39,11 +40,9 @@ class SignUp(generic.CreateView):
 
 #profile 
 @login_required
-def profile(request, pk):
-    profile = get_object_or_404(models.UserProfile, pk=pk)
-
-    context = {'profile': profile}
-    return render(request, 'PMT/profile.html', context)
+def profile(request):
+    args = {'user': request.user}
+    return render(request, 'accounts/profile.html', args)
 
 
 
