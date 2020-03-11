@@ -45,10 +45,7 @@ class UserManager(BaseUserManager):
 class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(unique=True)
     username = models.CharField(max_length=40, unique=True)
-    display_name = models.CharField(max_length=140)
-    bio = models.CharField(max_length=140, blank=True, default="")
-    avatar = models.ImageField(blank=True, null=True)
-    skill = models.CharField(max_length=20)
+    display_name = models.CharField(max_length=50)
     date_joined = models.DateTimeField(default=timezone.now)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
@@ -68,11 +65,11 @@ class User(AbstractBaseUser, PermissionsMixin):
         return "{} (@{})".format(self.display_name, self.username)
 
 class UserProfile(models.Model):
-    name = models.CharField(max_length=50)
     user = models.OneToOneField(settings.AUTH_USER_MODEL,
                                 on_delete=models.CASCADE,
                                 related_name="profile")
     avatar = models.ImageField(upload_to='profile_avatar', blank=True)
+    bio = models.CharField(max_length=140, blank=True, default="")
 
 def create_profile(sender, **kwargs):
     if kwargs['created']:
