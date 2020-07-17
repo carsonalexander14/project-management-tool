@@ -1,8 +1,10 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from django.contrib.auth import login, logout
+from accounts.forms import EditProfileForm
 from django.contrib.auth.forms import AuthenticationForm, UserChangeForm
-from django.contrib.auth.models import User
+from accounts.models import User 
+
 from django.urls import reverse_lazy
 from django.views import generic
 
@@ -41,22 +43,22 @@ class SignUp(generic.CreateView):
 #profile 
 @login_required
 def profile(request):
-    args = {'user': request.user}
-    return render(request, 'accounts/profile.html', args)
+    context = {'user': request.user}
+    return render(request, 'accounts/profile.html', context)
 
 @login_required
 def profile_edit(request):
     if request.method == 'POST':
-        form = UserChangeForm(request.POST, instance=request.user)
+        form = EditProfileForm(request.POST, instance=request.user)
 
         if form.is_valid():
             form.save()
             return redirect('/accounts/profile')
     
     else:
-        form = UserChangeForm(instance=request.user)
-        args = {'form': form}
-        return render(request, 'accounts/profile_edit.html', args)
+        form = EditProfileForm(instance=request.user)
+        context = {'form': form}
+        return render(request, 'accounts/profile_edit.html', context)
 
 
 
