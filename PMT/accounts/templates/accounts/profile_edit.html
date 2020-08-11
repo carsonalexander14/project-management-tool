@@ -19,14 +19,14 @@
           <h2>Profile</h2>
         </div>
         <div class="circle--fluid--cell circle--fluid--secondary">
-          <a class="button icon-on-left" href="profile_edit.html">Edit</a>
+          <a class="button icon-on-left" href="profile_edit.html">Save</a>
         </div>
       </div>
   
       <div class="grid-70">
         <h1>{{ form.display_name }}</h1>
         <div class="circle--article--body">
-          <p> {{ user.bio }} </p>
+          <p> {{ form.bio }} </p>
         </div>
   
         <h2>Past Projects</h2>
@@ -62,18 +62,14 @@
   
         <div class="circle--secondary--module">
           <div class="circle--primary--avatar">
-            <img src="{{ user.userprofile.avatar.url }}" width="240">
+            <img src="{{ form.avatar }}" width="240">
           </div>
         </div>
   
         <div class="circle--secondary--module">
           <h4>My Skills</h4>
           <ul class="unloaded">
-            <li>Skill 1</li>
-            <li>Skill 2</li>
-            <li>Skill 3</li>
-            <li>Skill 4</li>
-            <li>Skill 5</li>
+            <li>{{ form.skills }}</li>
           </ul>
         </div>
   

@@ -60,7 +60,3 @@ def profile_edit(request):
         context = {'form': form}
         return render(request, 'accounts/profile_edit.html', context)
 
-
-
-
-
