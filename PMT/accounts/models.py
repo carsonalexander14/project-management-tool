@@ -48,7 +48,7 @@ class User(AbstractBaseUser):
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
     display_name = models.CharField(max_length=25, default="")
-    avatar = models.ImageField(upload_to='profile_avatar', blank=True)
+    avatar = models.ImageField(upload_to='profile_avatar', blank=True, default="profile_avatar/default_avatar.png")
     bio = models.CharField(max_length=140, blank=True, default="")
     skills = models.ManyToManyField('Skill', related_name="users")
     

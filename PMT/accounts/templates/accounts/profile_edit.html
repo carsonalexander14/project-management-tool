@@ -2,7 +2,7 @@
 
 
 {% block body_content %}
-<form method="POST">
+<form method="POST" enctype="multipart/form-data">
   {% csrf_token %}
 <body>
     
@@ -65,8 +65,9 @@
       <div class="grid-25 grid-push-5">
   
         <div class="circle--secondary--module">
-          <div class="circle--primary--avatar">
-            <img src="{{ form.avatar }}" width="240">
+          <div>
+            <img src="{{ user.avatar.url }} "width="250" height="250">
+            {{ form.avatar }}
           </div>
         </div>
   
