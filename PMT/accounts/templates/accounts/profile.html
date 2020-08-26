@@ -24,7 +24,7 @@
       </div>
   
       <div class="grid-70">
-        <h1>{{ EditProfileForm.display_name }}</h1>
+        <h1>{{ user.display_name }}</h1>
         <div class="circle--article--body">
           <p> {{ user.bio }} </p>
         </div>
@@ -68,12 +68,10 @@
   
         <div class="circle--secondary--module">
           <h4>My Skills</h4>
-          <ul class="unloaded">
-            <li>Skill 1</li>
-            <li>Skill 2</li>
-            <li>Skill 3</li>
-            <li>Skill 4</li>
-            <li>Skill 5</li>
+          <ul>
+            {% for skill in user.skills.all %}
+              <li>{{ skill }}</li>
+            {% endfor %}
           </ul>
         </div>
   

@@ -2,7 +2,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django import forms
 
-from . import models
+from accounts.models import UserManager, User, Skill
 
 
 class UserCreateForm(UserCreationForm):
@@ -17,6 +17,9 @@ class UserCreateForm(UserCreationForm):
 
 
 class EditProfileForm(UserChangeForm):
+
+    skills = forms.ModelMultipleChoiceField(queryset=Skill.objects.all())
+
     class Meta:
         fields = ("username", "display_name", "avatar", "bio", "skills")
         model = get_user_model()

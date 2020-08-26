@@ -1,5 +1,5 @@
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth import login, logout
 from accounts.forms import EditProfileForm
 from django.contrib.auth.forms import AuthenticationForm, UserChangeForm
@@ -48,15 +48,16 @@ def profile(request):
 
 @login_required
 def profile_edit(request):
+    form = EditProfileForm(instance=request.user)
+
     if request.method == 'POST':
         form = EditProfileForm(request.POST, instance=request.user)
 
         if form.is_valid():
             form.save()
-            return redirect('/accounts/profile')
-    
-    else:
-        form = EditProfileForm(instance=request.user)
-        context = {'form': form}
-        return render(request, 'accounts/profile_edit.html', context)
+            return redirect('accounts:profile')
 
+    context = {
+        'form': form
+    }
+    return render(request, 'accounts/profile_edit.html', context)
