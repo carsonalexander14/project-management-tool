@@ -62,7 +62,7 @@
   
         <div class="circle--secondary--module">
           <div>
-            <img src="{{ user.avatar.url }}" width="250" height="250">
+            <img src="{{ user.avatar.url|default_if_none:'profile_avatar/default_avatar.png' }}" width="250" height="250">
           </div>
         </div>
   
