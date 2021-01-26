@@ -1,0 +1,68 @@
+{% extends 'layout.html' %}
+
+{% block body_content %}
+
+    <body>
+        <div class="circle--actions--bar">
+            <nav class="bounds">
+                <h1>{{ object.title }}</h1>
+            </nav>
+        </div>
+    
+        <div class="bounds circle--page">
+        <div class="circle--page--header circle--fluid">
+            <div class="circle--fluid--cell circle--fluid--primary">
+            <h2>{{ object.owner }}</h2>
+            </div>
+            <div class="circle--fluid--cell circle--fluid--secondary">
+            <a class="button icon-on-left" href="{% url 'accounts:profile_edit' %}">Apply</a>
+            <a class="button icon-on-left" href="{% url 'accounts:profile_edit' %}">Message</a>
+            </div>
+        </div>
+    
+        <div class="grid-70">
+            <div class="circle--article--body">
+            <p> {{ object.description }} </p>
+            </div>
+    
+            <h2>Open Project Positions</h2>
+            <table class="u-full-width circle--table">
+            <thead>
+                <tr>
+                <th>Position</th>
+                <th class="circle--cell--middle">Details</th>
+                <th class="circle--cell--right">Required Skills</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for position in object.positions.all %}
+                <tr class="clickable-row" data-href="project.html">
+                <td>
+                    <h3>{{ position.title }}</h3>
+                </td>
+                <td class="circle--cell--middle">
+                    <span class="secondary-label">{{ position.description }}</span>
+                </td>
+                <td class="circle--cell--right">
+                    <span class="secondary-label">{{ position.skills }}</span>
+                </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+            </table>
+
+            <h2>Taken Project Positions</h2>
+            <table class="u-full-width circle--table">
+            <thead>
+                <tr>
+                <th>Position</th>
+                <th class="circle--cell--right">Details</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+            </table>
+        </div>
+        
+    </body>
+{% endblock %}

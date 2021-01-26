@@ -2,19 +2,21 @@ from django.db import models
 from django.utils import timezone
 from django.conf import settings
 
-from accounts.models import User
+from accounts.models import User, Skill
 
 # Create your models here.
 
 class Project(models.Model):
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    title = models.CharField(max_length=15)
+    title = models.CharField(max_length=30)
+    slug = models.SlugField(null=True)
     description = models.CharField(max_length=150)
     timeline = models.CharField(max_length=30)
     requirements = models.CharField(max_length=150)
     end_date = models.DateField()
     date_created = models.DateTimeField(default=timezone.now)
     positions = models.ManyToManyField('Position', related_name="projects")
+    count = models.IntegerField(null=True, default=0)
 
     class Meta:
         ordering = ['-date_created']
@@ -26,7 +28,7 @@ class Project(models.Model):
 class Position(models.Model):
     title = models.CharField(max_length=15)
     description = models.CharField(max_length=150)
-    related_skill = models.CharField(max_length=15)
+    skills = models.ManyToManyField('accounts.Skill')
 
     class Meta:
         ordering = ['title']
@@ -35,25 +37,63 @@ class Position(models.Model):
         return self.title
 
 
-class Application(models.Model):
+class ApplicationList(models.Model):
 
-    STATUS_CHOICES = [
-        ('ACCEPTED', 'Accepted'),
-        ('DENIED', 'Denied'),
-        ('UNDECIDED', 'Undecided'),
-    ]
 
-    applicant = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="applications")
+    acceptor = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="acceptor")
+    applications_list = models.ManyToManyField(settings.AUTH_USER_MODEL, blank=True, related_name="applications_list")
     position = models.ForeignKey('Position', on_delete=models.CASCADE, related_name="applications")
-    status = models.CharField(
-        max_length=9,
-        choices=STATUS_CHOICES,
-        default='UNDECIDED',
-    )
+
 
     class Meta:
-        unique_together = ['applicant', 'position']
+        unique_together = ['acceptor', 'position']
 
     def __str__(self):
-        return "{}'s application to the {} position.".format(self.applicant, self.position)
-    
+        return self.user.username
+
+#change user to position
+    def add_application(self, user):
+        if not user in self.applications_list.all():
+            self.applications_list.add(user)
+            self.save()
+
+#change user to position
+    def remove_application(self, user):
+        if user in self.applications_list.all():
+            self.friends.remove(user)
+
+    def remove_application_initiate(self, removee):
+        remover_applications_list = self
+        remover_applications_list.remove.application(removee)
+
+        acceptor_list = Application.objects.get(user=removee)
+        acceptor_list.remove_application(self.user)
+
+class ApplicationRequest(models.Model):
+
+    sender = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="sender")
+    receiver = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="receiver")
+    is_active = models.BooleanField(blank=True, null=False, default=True)
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.sender.username
+
+    def accept(self):
+        receiver_application_list = ApplicationList.objects.get(user=self.receiver)
+
+        if receiver_application_list:
+            receiver_application_list.add_friend(self.sender)
+            sender_application_list = ApplicationList.objects.get(user=self.sender)
+            if sender_application_list:
+                sender_application_list.add_application(self.receiver)
+                self.is_active = False
+                self.save()
+
+    def decline(self):
+        self.is_active = False
+        self.save()
+
+    def cancel(self):
+        self.is_active = False
+        self.save()

@@ -1,0 +1,50 @@
+Table User {
+  email EmailField
+  username CharField
+  date_joined DateTimeField
+  is_active True
+  is_staff False
+  display_name CharField
+  avatar ImageField
+  bio CharField
+  skills ManyToManyField
+}
+
+Table Skill {
+  title CharField
+}
+
+Table Project {
+  owner ForeignKeyField
+  title CharField
+  slug SlugField
+  description CharField
+  timeline CharField
+  requirements CharField
+  end_date DateField
+  date_created DateTimeField
+  positions ManyToManyField
+  count IntegerField
+}
+
+Table Position {
+  title CharField
+  description CharField
+  skills ManyToManyField
+}
+
+Table Application {
+  applicant ForeignKeyField
+  position ForeignKeyField
+  status CharField
+}
+
+Enum post_status {
+  draft
+  published
+  private [note: 'visible via URL only']
+}
+
+Ref: User.skills > Skill // many-to-many
+Ref: Project.positions > Position // many-to-many
+Ref: Position.skills > Skill // many-to-many

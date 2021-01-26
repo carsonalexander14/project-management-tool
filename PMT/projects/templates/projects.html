@@ -1,0 +1,30 @@
+{% extends 'layout.html' %}
+
+{% block body_content %}
+
+    <div class="grid-70">
+        <h1>Open Projects</h1>
+        <table class="u-full-width circle--table">
+            <thead>
+            <tr>
+                <th>Project Title</th>
+                <th class="circle--cell--right">Project Owner</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for project in projects %}
+            <tr class="clickable-row" href="{% url 'projects:project_details' slug=project.slug %}">
+                <td>
+                <h3>{{ project.title }}</h3>
+                <span>{{project.description}}</span>
+                </td>
+                <td class="circle--cell--right">
+                <span class="secondary-label">{{ project.owner}}</span>
+                </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+{% endblock %}
