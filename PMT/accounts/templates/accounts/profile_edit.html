@@ -9,8 +9,7 @@
     <div class="circle--actions--bar">
       <nav class="bounds">
         <ul class="circle--pill--list">
-          <li><a href="applications.html">Applications</a></li>
-          <li><a class="selected" href="profile.html">Profile</a></li>
+          <li><a class="selected" href="profile.html">Edit Profile Mode</a></li>
         </ul>
       </nav>
     </div>
@@ -27,8 +26,11 @@
   
       <div class="grid-70">
         <p>{{ form.errors }}</p>
+        <h1> Display Name </h1>
         <h1>{{ form.display_name }}</h1>
+        <h1> Username </h1>
         <h1>{{ form.username }}</h1>
+        <h2> Bio </h2>
         <div class="circle--article--body">
           <p> {{ form.bio }} </p>
         </div>

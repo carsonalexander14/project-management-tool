@@ -8,8 +8,8 @@
       <nav class="bounds">
         <ul class="circle--pill--list">
           <li><a href="applications.html">Applications</a></li>
-          <li><a href="projects.html">Projects</a></li>
-          <li><a class="selected" href="profile.html">Profile</a></li>
+          <li><a href="{% url 'projects:projects' %}">Projects</a></li>
+          <li><a class="selected" href="{% url 'accounts:profile' %}">Profile</a></li>
         </ul>
       </nav>
     </div>

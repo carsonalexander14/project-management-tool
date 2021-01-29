@@ -1,19 +1,19 @@
 from django.db import models
 from django.utils import timezone
 from django.conf import settings
+from django.template.defaultfilters import slugify
 
 from accounts.models import User, Skill
 
 # Create your models here.
 
 class Project(models.Model):
-    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True)
     title = models.CharField(max_length=30)
     slug = models.SlugField(null=True)
     description = models.CharField(max_length=150)
     timeline = models.CharField(max_length=30)
     requirements = models.CharField(max_length=150)
-    end_date = models.DateField()
     date_created = models.DateTimeField(default=timezone.now)
     positions = models.ManyToManyField('Position', related_name="projects")
     count = models.IntegerField(null=True, default=0)
@@ -23,6 +23,11 @@ class Project(models.Model):
 
     def __str__(self):
         return self.title
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.title)
+        return super().save(*args, **kwargs)
 
 
 class Position(models.Model):

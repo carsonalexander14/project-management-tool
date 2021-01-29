@@ -37,7 +37,7 @@
       <div class="bounds">
         <div class="circle--fluid">
           <div class="circle--fluid--cell">
-            <h1 class="hide-text circle--logo"><a class="logo" href="index.html">Circle</a></h1>
+            <h1 class="hide-text circle--logo"><a class="logo" href="{% url 'projects:projects' %}">Circle</a></h1>
           </div>
           <div class="circle--fluid--cell circle--fluid--primary">
             <div class="circle--search">
@@ -53,8 +53,13 @@
           <div class="circle--fluid--cell circle--fluid--secondary">
             <nav>
               <ul class="circle--inline">
+                {% if user.is_authenticated %}
+                <li><a href="{% url 'accounts:profile' %}">My Profile</a></li>
+                <li><a href="{% url 'logout' %}">Log Out</a></li>
+                {% else %}
                 <li><a href="{% url 'accounts:signup' %}">Sign Up</a></li>
                 <li><a href="{% url 'login' %}">Log In</a></li>
+                {% endif %}
               </ul>
             </nav>
           </div>

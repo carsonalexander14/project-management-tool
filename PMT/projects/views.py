@@ -1,10 +1,13 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from django.db.models import F
 from django.utils import timezone
 from django.http import HttpResponse
 
+from django.urls import reverse_lazy
+from .forms import CreateProject
+from projects.application_request_status import ApplicationRequestStatus
 from projects.utils import get_application_request_or_false
 from projects.models import Project, Position, ApplicationList, ApplicationRequest
 from accounts.models import User 
@@ -15,16 +18,17 @@ from accounts.models import User
 class ProjectList(ListView):
 
     model = Project
-    template_name = "projects.html"
+    template_name = "project_list.html"
     context_object_name = "projects"
     paginate_by = 25
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['now'] = timezone.now()
+        context['positions_list'] = Position.objects.all()
         return context
 
-#view for details of projects. Singular projects details.
+#view for details of a project. Singular projects details.
 class ProjectDetail(DetailView):
 
     model = Project
@@ -40,6 +44,46 @@ class ProjectDetail(DetailView):
         context['now'] = timezone.now()
         return context
 
+#create project view
+class ProjectCreate(CreateView):
+    
+    model = Project
+    form_class = CreateProject
+    template_name = 'project_create.html'
+    success_url = reverse_lazy('projects:projects')
+    context_object_name = 'project_create'
+
+    def form_valid(self, form):
+        form.instance.owner = self.request.user
+        return super(ProjectCreate, self).form_valid(form)
+
+#update project view
+class ProjectEdit(UpdateView):
+
+    model = Project
+    form_class = CreateProject
+    template_name = 'project_edit.html'
+    success_url = reverse_lazy('projects:projects')
+    context_object_name = 'project_edit'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        post = Project.objects.filter(slug=self.kwargs.get('slug'))
+        post.update(count=F('count') + 1)
+
+        context['now'] = timezone.now()
+        return context
+
+
+
+
+
+
+
+#delete project view
+
+
 @login_required
 def application_list_view(request, ApplicationList, ApplicationRequest):
     try:
@@ -51,6 +95,9 @@ def application_list_view(request, ApplicationList, ApplicationRequest):
     context = {'applications': applications}
     is_self = True
     is_acceptor = False
+    request_sent = ApplicationRequestStatus.NO_REQUEST_SENT.value
+    application_requests = None
+
     user = request.user
 
     if applications.filter(pk=user.id):
@@ -64,7 +111,7 @@ def application_list_view(request, ApplicationList, ApplicationRequest):
             request_sent = ApplicationRequestStatus.YOU_SENT_TO_THEM.value
         else:
             request_sent = ApplicationRequestStatus.NO_REQUEST_SENT.value
-            
+
     try:
         application_requests = ApplicationRequest.objects.filter(receiver=user, is_active=True)
     except:
