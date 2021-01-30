@@ -1,0 +1,18 @@
+{% extends 'layout.html' %}
+
+{% block body_content %}
+
+
+    <body>
+        <div class="bounds circle--page circle--article">
+            <div class="grid-70">
+                <form method="post">
+                    {% csrf_token %}
+                    <p>Are you sure you want to delete "{{ object.title }}"?</p>
+                    <input type="submit" value="Confrim">
+                </form>
+            </div>
+        </div>
+    </body>
+
+{% endblock %}

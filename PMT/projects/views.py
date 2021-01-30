@@ -79,17 +79,12 @@ class ProjectEdit(UpdateView):
 class ProjectDelete(DeleteView):
 
     model = Project
-    context_object_name = "project_delete"
+    template_name = 'project_delete.html'
     success_url = reverse_lazy('projects:projects')
+    context_object_name = 'project_delete'
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
 
-        post = Project.objects.filter(slug=self.kwargs.get('slug'))
-        post.update(count=F('count') + 1)
 
-        context['now'] = timezone.now()
-        return context
 
 @login_required
 def application_list_view(request, ApplicationList, ApplicationRequest):

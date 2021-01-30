@@ -6,16 +6,16 @@
     <div class="circle--actions--bar">
       <div class="bounds">
         {% if user.is_authenticated %}
-          {% if user.id == object.owner %}
-          <div class="grid-100">
-            <a class="button" href="{% url 'projects:project_edit' slug=object.slug %}">Edit Project</a>
-            <a class="button button-text" href="index.html">Delete Project</a>
-          </div>
+          {% if user.id == object.owner.id %}
+            <div class="grid-100">
+              <a class="button" href="{% url 'projects:project_edit' slug=object.slug %}">Edit Project</a>
+              <a class="button button-text" href="{% url 'projects:project_delete' slug=object.slug %}">Delete Project</a>
+            </div>
           {% endif %}
         {% endif %}
       </div>
     </div>
-    <!--  endfor  --> 
+
     <div class="bounds circle--page circle--article">
       <div class="grid-70">
         <div class="circle--article--header">
