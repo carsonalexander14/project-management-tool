@@ -5,10 +5,14 @@
     <!--  for project that user owns  --> 
     <div class="circle--actions--bar">
       <div class="bounds">
-        <div class="grid-100">
-          <a class="button" href="{% url 'projects:project_edit' slug=object.slug %}">Edit Project</a>
-          <a class="button button-text" href="index.html">Delete Project</a>
-        </div>
+        {% if user.is_authenticated %}
+          {% if user.id == object.owner %}
+          <div class="grid-100">
+            <a class="button" href="{% url 'projects:project_edit' slug=object.slug %}">Edit Project</a>
+            <a class="button button-text" href="index.html">Delete Project</a>
+          </div>
+          {% endif %}
+        {% endif %}
       </div>
     </div>
     <!--  endfor  --> 

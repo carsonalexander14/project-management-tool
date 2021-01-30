@@ -1,11 +1,11 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
-from django.views.generic import ListView, DetailView, CreateView, UpdateView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.db.models import F
 from django.utils import timezone
 from django.http import HttpResponse
 
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from .forms import CreateProject
 from projects.application_request_status import ApplicationRequestStatus
 from projects.utils import get_application_request_or_false
@@ -75,14 +75,21 @@ class ProjectEdit(UpdateView):
         context['now'] = timezone.now()
         return context
 
-
-
-
-
-
-
 #delete project view
+class ProjectDelete(DeleteView):
 
+    model = Project
+    context_object_name = "project_delete"
+    success_url = reverse_lazy('projects:projects')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        post = Project.objects.filter(slug=self.kwargs.get('slug'))
+        post.update(count=F('count') + 1)
+
+        context['now'] = timezone.now()
+        return context
 
 @login_required
 def application_list_view(request, ApplicationList, ApplicationRequest):
