@@ -32,7 +32,7 @@
           <h2>Positions</h2>
   
           <ul class="circle--group--list">
-            {% for position in object.positions.all %}
+            {% for position in object.position_set.all %}
             <li>
               <h3> {{ position.position_title }} </h3>
               <p> {{ position.position_description }} </p>
@@ -51,14 +51,6 @@
       </div>
   
       <div class="grid-25 grid-push-5">
-        <div class="circle--secondary--module">
-          <h3>Project Needs</h3>
-          <ul class="circle--link--list">
-            {% for position in object.positions.all %}
-            <li><a>{{ position.title }}</a></li>
-            {% endfor %}
-          </ul>
-        </div>
   
         <div class="circle--secondary--module">
           <h3>Project Timeline</h3>

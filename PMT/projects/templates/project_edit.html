@@ -3,6 +3,7 @@
 {% block body_content %}
 {% if user.is_authenticated %}
   {% if user.id == object.owner.id %}
+  
   <form method="POST" enctype="multipart/form-data">
     {% csrf_token %}
       <body>
@@ -25,14 +26,19 @@
 
             <div class="circle--project--positions">
               <h2>Positions</h2>
+              {{ formset.management_form }}
+              {% for position in object.position_set.all %}
+              <p>{{ position.position_title }}</p>
+              {% endfor %}
 
               <ul class="circle--group--list circle--clone--list">
-                {% for position in positions %}
+                {{ formset.management_form }}
+                {% for form in formset %}
                 <li>
                   <h3 class="circle--secondary--module"> Position Title </h3>
                   <h1 class="circle--input--h1"> {{ form.position_title }} </h1>
                   <h3>Position Description</h3>
-                  <textarea> {{ form.position_description }} </textarea>
+                  <p class="circle--textarea--input"> {{ formsets.positions.position_description.as_textarea }} </p>
                   <a class="circle--clone--add" type="submit">Add Position</a>
                   <a class="circle--clone--remove">Remove</a>
                 </li>

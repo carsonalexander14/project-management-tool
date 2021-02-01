@@ -31,7 +31,7 @@ class Project(models.Model):
 
 
 class Position(models.Model):
-    project_master = models.ForeignKey(Project, on_delete=models.CASCADE, null=True)
+    project_master = models.ForeignKey(Project, on_delete=models.CASCADE, related_name="position_set", null=True)
     position_title = models.CharField(max_length=15)
     position_description = models.CharField(max_length=150)
     skills = models.ManyToManyField('accounts.Skill')
