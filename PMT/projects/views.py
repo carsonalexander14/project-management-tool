@@ -6,7 +6,7 @@ from django.utils import timezone
 from django.http import HttpResponse
 
 from django.urls import reverse_lazy, reverse
-from .forms import CreateProject
+from .forms import CreateProject, PositionFormSet
 from projects.application_request_status import ApplicationRequestStatus
 from projects.utils import get_application_request_or_false
 from projects.models import Project, Position, ApplicationList, ApplicationRequest
@@ -50,10 +50,21 @@ class ProjectCreate(CreateView):
     model = Project
     form_class = CreateProject
     template_name = 'project_create.html'
-    success_url = reverse_lazy('projects:projects')
+    success_url = reverse_lazy('projects:project_details')
     context_object_name = 'project_create'
 
+
+    def get_context_data(self, **kwargs):
+        data = super(ProjectCreate, self).get_context_data(**kwargs)
+        if self.request.POST:
+            data['positions'] = PositionFormSet(self.request.POST)
+        else:
+            data['positions'] = PositionFormSet()
+        return data
+
     def form_valid(self, form):
+        context = self.get_context_data()
+        positions = context['positions']
         form.instance.owner = self.request.user
         return super(ProjectCreate, self).form_valid(form)
 
@@ -67,13 +78,15 @@ class ProjectEdit(UpdateView):
     context_object_name = 'project_edit'
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
+        data = super(ProjectCreate, self).get_context_data(**kwargs)
 
         post = Project.objects.filter(slug=self.kwargs.get('slug'))
         post.update(count=F('count') + 1)
 
         context['now'] = timezone.now()
         return context
+
+
 
 #delete project view
 class ProjectDelete(DeleteView):

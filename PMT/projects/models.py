@@ -31,15 +31,16 @@ class Project(models.Model):
 
 
 class Position(models.Model):
-    title = models.CharField(max_length=15)
-    description = models.CharField(max_length=150)
+    project_master = models.ForeignKey(Project, on_delete=models.CASCADE, null=True)
+    position_title = models.CharField(max_length=15)
+    position_description = models.CharField(max_length=150)
     skills = models.ManyToManyField('accounts.Skill')
 
     class Meta:
-        ordering = ['title']
+        ordering = ['position_title']
 
     def __str__(self):
-        return self.title
+        return self.position_title
 
 
 class ApplicationList(models.Model):
