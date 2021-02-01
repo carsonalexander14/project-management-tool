@@ -78,15 +78,13 @@ class ProjectEdit(UpdateView):
     context_object_name = 'project_edit'
 
     def get_context_data(self, **kwargs):
-        data = super(ProjectCreate, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
 
         post = Project.objects.filter(slug=self.kwargs.get('slug'))
         post.update(count=F('count') + 1)
 
         context['now'] = timezone.now()
         return context
-
-
 
 #delete project view
 class ProjectDelete(DeleteView):
