@@ -14,7 +14,7 @@ from accounts.models import User
 
 # Create your views here.
 
-#view for open list of projects. like the "home" of projects
+#OPEN LIST OF PROJECTS
 class ProjectList(ListView):
 
     model = Project
@@ -28,7 +28,7 @@ class ProjectList(ListView):
         context['positions_list'] = Position.objects.all()
         return context
 
-#view for details of a project. Singular projects details.
+#PROJECT DETAILS
 class ProjectDetail(DetailView):
 
     model = Project
@@ -44,7 +44,7 @@ class ProjectDetail(DetailView):
         context['now'] = timezone.now()
         return context
 
-#create project view
+#CREATE PROJECT
 class ProjectCreate(CreateView):
     
     model = Project
@@ -61,12 +61,22 @@ class ProjectCreate(CreateView):
         return context
 
     def form_valid(self, form):
+        #CREATING CONTEXT
         context = self.get_context_data(form=form)
+        #CREATING LINKING NAME FOR FORMSET
         formset = context['position_formset']
+        #SETS PROJECT OWNER
         form.instance.owner = self.request.user
-        return super(ProjectCreate, self).form_valid(form)
+        #CREATES SAVE FOR FORMSET
+        if formset.is_valid():
+            response = super().form_valid(form)
+            formset.instance = self.object
+            formset.save()
+            return response
+        else:
+            return super().form_invalid(form)
 
-#update project view
+#EDIT PROJECT
 class ProjectEdit(UpdateView):
 
     model = Project
@@ -76,15 +86,26 @@ class ProjectEdit(UpdateView):
     context_object_name = 'project_edit'
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-
-        post = Project.objects.filter(slug=self.kwargs.get('slug'))
-        post.update(count=F('count') + 1)
-        
-        context['now'] = timezone.now()
+        context = super(ProjectEdit, self).get_context_data(**kwargs)
+        if self.request.POST:
+            context['position_formset'] = PositionFormSet(self.request.POST, instance=self.object)
+            context['position_formset'].full_clean()
+        else:
+            context['position_formset'] = PositionFormSet(instance=self.object)
         return context
 
-#delete project view
+    def form_valid(self, form):
+        context = self.get_context_data(form=form)
+        formset = context['position_formset']
+        if formset.is_valid():
+            response = super().form_valid(form)
+            formset.instance = self.object
+            formset.save()
+            return response
+        else:
+            return super().form_invalid(form)
+
+#DELETE PROJECT
 class ProjectDelete(DeleteView):
 
     model = Project
