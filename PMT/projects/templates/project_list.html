@@ -44,9 +44,11 @@
               <td>
                 <h3>{{project.title}}</h3>
               </td>
+              {% for position in projects %}
               <td class="circle--cell--right">
-                <span class="secondary-label">{{project.positions}}</span>
+                <span class="secondary-label">{{ position.position_title }}</span>
               </td>
+              {% endfor %}
             </tr>
           </tbody>
           {% endfor %}
