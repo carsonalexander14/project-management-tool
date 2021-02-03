@@ -34,9 +34,12 @@
               <h1 class="circle--input--h1"> {{ form.position_title }} </h1>
               <h3>Position Description</h3>
               <p class="circle--textarea--input"> {{ form.position_description.as_textarea }} </p>
-              <a class="circle--clone--add" type="submit">Add Position</a>
+              <!-- <a class="circle--clone--add" type="submit">Add Position</a> -->
               <a class="circle--clone--remove">Remove</a>
             </li>
+            {% endfor %}
+            {% for hidden in form.hidden_fields %}
+              {{ hidden }}
             {% endfor %}
           </ul>
           <button class="button button-primary" type="submit">Save Project</button>

@@ -10,5 +10,5 @@ class CreateProject(forms.ModelForm):
 
 PositionFormSet = inlineformset_factory(
     Project, Position, form=CreateProject,
-    fields=['position_title', 'position_description'], extra=1, can_delete=True
+    fields=['position_title', 'position_description'], extra=4, can_delete=True
 )
