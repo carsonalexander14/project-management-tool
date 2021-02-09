@@ -2,6 +2,7 @@ from django.db import models
 from django.utils import timezone
 from django.conf import settings
 from django.template.defaultfilters import slugify
+from decimal import Decimal
 
 from accounts.models import User, Skill
 
@@ -15,6 +16,7 @@ class Project(models.Model):
     timeline = models.CharField(max_length=30)
     requirements = models.CharField(max_length=150)
     date_created = models.DateTimeField(default=timezone.now)
+    points = models.DecimalField(max_digits=999999999, decimal_places=2, default=0, blank=True, null=True)
     positions = models.ManyToManyField('Position', related_name="projects")
     count = models.IntegerField(null=True, default=0)
 

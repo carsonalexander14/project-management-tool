@@ -152,5 +152,24 @@ def application_list_view(request, ApplicationList, ApplicationRequest):
     context = {'is_self': is_self}
     context = {'is_acceptor': is_acceptor}
     context = {'request_sent': request_sent}
-    context = {'friend_requests': friend_requests}
+    context = {'application_requests': application_requests}
     return context
+
+
+
+
+def daily_points(request):
+    dpslabels = []
+    dpsdata = []
+
+    queryset = Project.objects.filter(created_date__date=timezone.now().date())
+    for point in queryset:
+        dpslabels.append(point.owner)
+        dpsdata.append(point.points)
+
+    context = {
+        'dpslabels': dpslabels,
+        'dpsdata': dpsdata,
+    }
+
+    return render(request, 'pointsreport.html', context)
