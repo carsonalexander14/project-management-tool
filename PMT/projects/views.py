@@ -162,7 +162,7 @@ def daily_points(request):
     dpslabels = []
     dpsdata = []
 
-    queryset = Project.objects.filter(created_date__date=timezone.now().date())
+    queryset = Project.objects.filter(date_created__date=timezone.now().date())
     for point in queryset:
         dpslabels.append(point.owner)
         dpsdata.append(point.points)
