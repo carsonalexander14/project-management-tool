@@ -156,16 +156,14 @@ def application_list_view(request, ApplicationList, ApplicationRequest):
     return context
 
 
-
-
 def daily_points(request):
     dpslabels = []
     dpsdata = []
 
     queryset = Project.objects.filter(date_created__date=timezone.now().date())
     for point in queryset:
-        dpslabels.append(point.owner)
-        dpsdata.append(point.points)
+        dpslabels.append(point.owner.display_name)
+        dpsdata.append(float(point.points))
 
     context = {
         'dpslabels': dpslabels,
