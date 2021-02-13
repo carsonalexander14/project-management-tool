@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 # Register your models here.
-from projects.models import Project, Position, ApplicationList, ApplicationRequest
+""" from projects.models import Project, Position, ApplicationList, ApplicationRequest
 
 
 class ApplicationListAdmin(admin.ModelAdmin):
@@ -30,4 +30,4 @@ class AuthorAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('title',),}
 
 
-admin.site.register([Project, Position])
+admin.site.register([Project, Position]) """

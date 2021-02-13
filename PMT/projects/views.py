@@ -1,15 +1,16 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-from django.db.models import F
+from django.db.models import F, Q
 from django.utils import timezone
 from django.http import HttpResponse
 
 from django.urls import reverse_lazy, reverse
 from .forms import CreateProject, PositionFormSet
-from projects.application_request_status import ApplicationRequestStatus
-from projects.utils import get_application_request_or_false
-from projects.models import Project, Position, ApplicationList, ApplicationRequest
+""" from projects.application_request_status import ApplicationRequestStatus
+from projects.utils import get_application_request_or_false """
+from projects.models import Project, Position
+"""  ApplicationList, ApplicationRequest """
 from accounts.models import User 
 
 # Create your views here.
@@ -114,12 +115,20 @@ class ProjectDelete(DeleteView):
     context_object_name = 'project_delete'
 
 
+#SEARCH PROJECTS BY TITLE AND DESCRIPTION
+def search_projects(request):
+    template_name = "project_list.html"
 
+    query = request.GET.get('q')
 
-@login_required
+    results = Project.objects.filter(Q(title__icontains=query) | Q(description__icontains=query))
+
+    return render(request, template_name)
+
+""" #@login_required
 def application_list_view(request, ApplicationList, ApplicationRequest):
     try:
-        application_list = ApplicationList.objects.get(user=acceptor)
+       application_list = ApplicationList.objects.get(user=acceptor)
     except ApplicationList.DoesNotExist:
         application_list = ApplicationList(user=acceptor)
         application_list.save()
@@ -153,9 +162,9 @@ def application_list_view(request, ApplicationList, ApplicationRequest):
     context = {'is_acceptor': is_acceptor}
     context = {'request_sent': request_sent}
     context = {'application_requests': application_requests}
-    return context
+    return context """
 
-
+""" 
 def daily_points(request):
     dpslabels = []
     dpsdata = []
@@ -170,4 +179,4 @@ def daily_points(request):
         'dpsdata': dpsdata,
     }
 
-    return render(request, 'pointsreport.html', context)
+    return render(request, 'pointsreport.html', context) """

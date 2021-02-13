@@ -33,19 +33,29 @@ class Project(models.Model):
 
 
 class Position(models.Model):
+
+    STATUS_CHOICES = [
+        ('A', 'Accepted'),
+        ('R', 'Rejected'),
+        ('P', 'Pending'),
+        ('O', 'Open'),
+    ] 
+
     project_master = models.ForeignKey(Project, on_delete=models.CASCADE, related_name="position_set", null=True)
     position_title = models.CharField(max_length=15)
     position_description = models.CharField(max_length=150)
     skills = models.ManyToManyField('accounts.Skill')
+    application_status = models.CharField(max_length=1, choices=STATUS_CHOICES, default='O')
 
     class Meta:
         ordering = ['position_title']
 
     def __str__(self):
         return self.position_title
+        
+""" 
 
-
-class ApplicationList(models.Model):
+ class ApplicationList(models.Model):
 
 
     acceptor = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="acceptor")
@@ -59,13 +69,13 @@ class ApplicationList(models.Model):
     def __str__(self):
         return self.user.username
 
-#change user to position
+change user to position
     def add_application(self, user):
         if not user in self.applications_list.all():
             self.applications_list.add(user)
             self.save()
 
-#change user to position
+change user to position
     def remove_application(self, user):
         if user in self.applications_list.all():
             self.friends.remove(user)
@@ -104,4 +114,4 @@ class ApplicationRequest(models.Model):
 
     def cancel(self):
         self.is_active = False
-        self.save()
+        self.save() """

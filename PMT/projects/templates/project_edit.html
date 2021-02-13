@@ -36,6 +36,7 @@
                   <h3>Position Description</h3>
                   <p class="circle--textarea--input"> {{ position_form.position_description.as_textarea }} </p>
                   <!--<a class="circle--clone--add" type="submit">Add Position</a> -->
+                  {{ position_form.skills }}
                   <span>{{position_form.DELETE}} Remove?</span>
                 </li>
                 {% endfor %}

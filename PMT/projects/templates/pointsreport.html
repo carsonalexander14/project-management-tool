@@ -8,10 +8,10 @@
     let dailypoints = {
         type: 'horizontalBar',
         data: {
-            labels: {{ dpslabels }},
+            labels: {{ dpslabels|safe }},
             datasets: [{
                 label: 'Projects',
-                data: {{ dpsdata }},
+                data: {{ dpsdata|safe }},
                 backgroundColor: [
                     'rgb(50,150,237)',
                     'rgb(50,150,237)',

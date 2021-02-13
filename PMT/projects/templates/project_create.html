@@ -25,7 +25,7 @@
 
         <div class="circle--project--positions">
           <h2>Positions</h2>
-
+          
           <ul class="circle--group--list circle--clone--list">
             {{ position_formset.management_form }}
             {% for form in position_formset.forms %}
@@ -34,6 +34,7 @@
               <h1 class="circle--input--h1"> {{ form.position_title }} </h1>
               <h3>Position Description</h3>
               <p class="circle--textarea--input"> {{ form.position_description.as_textarea }} </p>
+              {{ form.skills }}
               <!-- <a class="circle--clone--add" type="submit">Add Position</a> -->
               <a class="circle--clone--remove">Remove</a>
             </li>
