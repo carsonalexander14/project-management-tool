@@ -23,7 +23,7 @@
           <ul class="circle--filter--list">
             <li><a class="selected">All Needs</a></li>
             {% for position in positions_list %}
-            <li><a>{{ position.title }}</a></li>
+            <li><a>{{ position.position_title }}</a></li>
             {% endfor %}
           </ul>
         </div>
@@ -44,15 +44,30 @@
               <td>
                 <h3>{{project.title}}</h3>
               </td>
-              {% for position in projects %}
               <td class="circle--cell--right">
-                <span class="secondary-label">{{ position.position_title }}</span>
+                <span class="secondary-label">{{ project.positions }}</span>
               </td>
-              {% endfor %}
             </tr>
           </tbody>
           {% endfor %}
         </table>
+          <div class="pagination">
+              <span class="step-links">
+                  {% if page_obj.has_previous %}
+                      <a href="?page=1">&laquo; first</a>
+                      <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+                  {% endif %}
+
+                  <span class="current">
+                      Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}. (20 per page)
+                  </span>
+
+                  {% if page_obj.has_next %}
+                      <a href="?page={{ page_obj.next_page_number }}">next</a>
+                      <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+                  {% endif %}
+              </span>
+          </div>
       </div>
     </div>
   </body>

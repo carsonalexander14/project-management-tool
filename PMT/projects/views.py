@@ -15,13 +15,13 @@ from accounts.models import User
 
 # Create your views here.
 
-#OPEN LIST OF PROJECTS
+# OPEN LIST OF PROJECTS
 class ProjectList(ListView):
 
     model = Project
     template_name = "project_list.html"
     context_object_name = "projects"
-    paginate_by = 25
+    paginate_by = 20   
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -29,7 +29,7 @@ class ProjectList(ListView):
         context['positions_list'] = Position.objects.all()
         return context
 
-#PROJECT DETAILS
+# PROJECT DETAILS
 class ProjectDetail(DetailView):
 
     model = Project
@@ -45,7 +45,7 @@ class ProjectDetail(DetailView):
         context['now'] = timezone.now()
         return context
 
-#CREATE PROJECT
+# CREATE PROJECT
 class ProjectCreate(CreateView):
     
     model = Project
@@ -77,7 +77,7 @@ class ProjectCreate(CreateView):
         else:
             return super().form_invalid(form)
 
-#EDIT PROJECT
+# EDIT PROJECT
 class ProjectEdit(UpdateView):
 
     model = Project
@@ -106,7 +106,7 @@ class ProjectEdit(UpdateView):
         else:
             return super().form_invalid(form)
 
-#DELETE PROJECT
+# DELETE PROJECT
 class ProjectDelete(DeleteView):
 
     model = Project
@@ -115,7 +115,7 @@ class ProjectDelete(DeleteView):
     context_object_name = 'project_delete'
 
 
-#SEARCH PROJECTS BY TITLE AND DESCRIPTION
+# SEARCH PROJECTS BY TITLE AND DESCRIPTION
 def search_projects(request):
     template_name = "project_list.html"
 
@@ -123,9 +123,11 @@ def search_projects(request):
 
     results = Project.objects.filter(Q(title__icontains=query) | Q(description__icontains=query))
 
-    return render(request, template_name)
+    context = {'projects': results, }
 
-""" #@login_required
+    return render(request, template_name, context)
+
+""" @login_required
 def application_list_view(request, ApplicationList, ApplicationRequest):
     try:
        application_list = ApplicationList.objects.get(user=acceptor)
