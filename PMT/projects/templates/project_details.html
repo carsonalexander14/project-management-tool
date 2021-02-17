@@ -36,7 +36,9 @@
             <li>
               <h3> {{ position.position_title }} </h3>
               <p> {{ position.position_description }} </p>
-              <p> {{ position.skills }} </p>
+              {% for skill in position.skills.all %}
+              <p> {{ skill.title }} </p>
+              {% endfor %}
               <a class="button button-primary">Apply</a>
             </li>
             {% endfor %}

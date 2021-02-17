@@ -23,7 +23,7 @@
           <ul class="circle--filter--list">
             <li><a class="selected">All Needs</a></li>
             {% for position in positions_list %}
-            <li><a>{{ position.position_title }}</a></li>
+            <li><a href="{{ request.path }}?position={{ position.position_title | urlencode }}">{{ position.position_title }}</a></li>
             {% endfor %}
           </ul>
         </div>
@@ -45,7 +45,9 @@
                 <h3>{{project.title}}</h3>
               </td>
               <td class="circle--cell--right">
-                <span class="secondary-label">{{ project.positions }}</span>
+                {% for position in project.position_set.all %}
+                <span class="secondary-label">{{ position.position_title }}</span>
+                {% endfor %}
               </td>
             </tr>
           </tbody>
@@ -59,7 +61,7 @@
                   {% endif %}
 
                   <span class="current">
-                      Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}. (20 per page)
+                      Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
                   </span>
 
                   {% if page_obj.has_next %}

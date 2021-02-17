@@ -11,7 +11,7 @@ from .forms import CreateProject, PositionFormSet
 from projects.utils import get_application_request_or_false """
 from projects.models import Project, Position
 """  ApplicationList, ApplicationRequest """
-from accounts.models import User 
+from accounts.models import User, Skill
 
 # Create your views here.
 
@@ -22,6 +22,14 @@ class ProjectList(ListView):
     template_name = "project_list.html"
     context_object_name = "projects"
     paginate_by = 20   
+
+    def get_queryset(self):
+        position_val = self.request.GET.get('position','')
+        if position_val == '':
+            return Project.objects.all()
+        else:
+            projects = Project.objects.filter(position_set__position_title=position_val)
+            return projects
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -43,6 +51,7 @@ class ProjectDetail(DetailView):
         post.update(count=F('count') + 1)
 
         context['now'] = timezone.now()
+        context['skills_list'] = Skill.objects.all()
         return context
 
 # CREATE PROJECT
