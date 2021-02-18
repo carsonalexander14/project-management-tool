@@ -22,6 +22,8 @@ class SignUp(generic.CreateView):
 @login_required
 def profile(request):
 
+    print(f'{request.user}: {request.user.id}')
+
     projects_list = Project.objects.filter(owner=request.user)
 
     context = {

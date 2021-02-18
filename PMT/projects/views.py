@@ -145,6 +145,8 @@ class ApplicationListView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['now'] = timezone.now()
+        context['projects_list'] = Project.objects.filter(owner=self.request.user)
+        context['positions_list'] = Position.objects.filter(projects__owner=self.request.user)
         return context
 
 """ @login_required
