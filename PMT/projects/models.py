@@ -52,8 +52,8 @@ class Position(models.Model):
 
 
 class ProjectPosition(models.Model):
-    position = models.ForeignKey(Position, on_delete=models.CASCADE)
-    project = models.ForeignKey(Project, on_delete=models.CASCADE)
+    position = models.ForeignKey(Position)
+    project = models.ForeignKey(Project)
 
 
 class Application(models.Model):
