@@ -9,6 +9,7 @@ from accounts.models import User, Skill
 
 # Create your models here.
 
+
 class Project(models.Model):
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True)
     title = models.CharField(max_length=30)
@@ -17,13 +18,7 @@ class Project(models.Model):
     timeline = models.CharField(max_length=30)
     requirements = models.CharField(max_length=150)
     date_created = models.DateTimeField(default=timezone.now)
-    positions = models.ManyToManyField(
-        "Position",
-        through='ProjectPosition',
-        db_table='project_positions',
-        related_name='projects',
-        through_fields=('project', 'position'),
-    )
+    positions = models.ManyToManyField('Position', related_name="projects", default=None)
     count = models.IntegerField(null=True, default=0)
 
     class Meta:
@@ -66,11 +61,6 @@ class Application(models.Model):
     ]    
 
     application_status = models.CharField(max_length=1, choices=STATUS_CHOICES, default='O')
-    acceptor = models.ForeignKey(settings.AUTH_USER_MODEL, null=True)
-
-
-class ProjectPosition(models.Model):
-    position = models.ForeignKey(Position)
-    project = models.ForeignKey(Project)
-    application = models.ForeignKey(Application)
-    
+    acceptor = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True)
+    position = models.ForeignKey(Position, on_delete=models.CASCADE, null=True)
+    project = models.ForeignKey(Project, on_delete=models.CASCADE, null=True)
