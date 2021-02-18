@@ -83,6 +83,9 @@
             <li><a>Project 2</a></li>
             <li><a>Project 3</a></li>
             <li><a>Project 4</a></li>
+            {% for project in project_list %}
+              <li><a>{{ project }}</a></li>
+            {% endfor %}
           </ul>
         </div>
       </div>
