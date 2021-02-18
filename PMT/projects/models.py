@@ -51,11 +51,6 @@ class Position(models.Model):
         return self.position_title
 
 
-class ProjectPosition(models.Model):
-    position = models.ForeignKey(Position)
-    project = models.ForeignKey(Project)
-
-
 class Application(models.Model):
 
     ACCEPTED = 'A'
@@ -71,5 +66,11 @@ class Application(models.Model):
     ]    
 
     application_status = models.CharField(max_length=1, choices=STATUS_CHOICES, default='O')
-    acceptor = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True)
+    acceptor = models.ForeignKey(settings.AUTH_USER_MODEL, null=True)
 
+
+class ProjectPosition(models.Model):
+    position = models.ForeignKey(Position)
+    project = models.ForeignKey(Project)
+    application = models.ForeignKey(Application)
+    
