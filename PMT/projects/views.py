@@ -9,7 +9,7 @@ from django.urls import reverse_lazy, reverse
 from .forms import CreateProject, PositionFormSet
 """ from projects.application_request_status import ApplicationRequestStatus
 from projects.utils import get_application_request_or_false """
-from projects.models import Project, Position
+from projects.models import Project, Position, Application
 """  ApplicationList, ApplicationRequest """
 from accounts.models import User, Skill
 
@@ -135,6 +135,17 @@ def search_projects(request):
     context = {'projects': results, }
 
     return render(request, template_name, context)
+
+
+class ApplicationListView(ListView):
+
+    model = Application
+    template_name = "applications.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['now'] = timezone.now()
+        return context
 
 """ @login_required
 def application_list_view(request, ApplicationList, ApplicationRequest):
