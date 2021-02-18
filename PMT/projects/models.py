@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models.fields import CharField
 from django.utils import timezone
 from django.conf import settings
 from django.template.defaultfilters import slugify
@@ -17,7 +18,7 @@ class Project(models.Model):
     requirements = models.CharField(max_length=150)
     date_created = models.DateTimeField(default=timezone.now)
     positions = models.ManyToManyField(
-        Position,
+        "Position",
         through='ProjectPosition',
         db_table='project_positions',
         related_name='projects',
@@ -50,6 +51,11 @@ class Position(models.Model):
         return self.position_title
 
 
+class ProjectPosition(models.Model):
+    position = models.ForeignKey(Position, on_delete=models.CASCADE)
+    project = models.ForeignKey(Project, on_delete=models.CASCADE)
+
+
 class Application(models.Model):
 
     ACCEPTED = 'A'
@@ -66,5 +72,4 @@ class Application(models.Model):
 
     application_status = models.CharField(max_length=1, choices=STATUS_CHOICES, default='O')
     acceptor = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True)
-    position = models.ForeignKey(Position, on_delete=models.CASCADE)
-    project = models.ForeignKey(Project, on_delete=models.CASCADE)
+
