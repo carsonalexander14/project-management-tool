@@ -62,14 +62,16 @@
               <th class="circle--cell--right">Approval Status</th>
             </tr>
           </thead>
+          {% if position.application_status == Postion.OPEN %}
           <tbody>
+            {% for position in positions_list %}
             <tr class="clickable-row" data-href="profile.html">
               <td>
-                <h3>Jim Horton</h3>
-                <p>Currency Calculator</p>
+                <h3>{{ position.owner }}</h3>
+                <p>{{ position.project_master }}</p>
               </td>
               <td class="circle--cell--right">
-                <span class="secondary-label">Rails Developer</span>
+                <span class="secondary-label">{{ position.position_title }}</span>
               </td>
               <td class="circle--cell--right">
                 <ul class="circle--pill--list">
@@ -78,22 +80,9 @@
                 </ul>
               </td>
             </tr>
-            <tr class="clickable-row" data-href="profile.html">
-              <td>
-                <h3>Jenny McMann</h3>
-                <p>Currency Calculator</p>
-              </td>
-              <td class="circle--cell--right">
-                <span class="secondary-label">Designer</span>
-              </td>
-              <td class="circle--cell--right">
-                <ul class="circle--pill--list">
-                  <li><a href="applications.html">Accept</a></li>
-                  <li><a href="applications.html">Reject</a></li>
-                </ul>
-              </td>
-            </tr>
+            {% endfor %}
           </tbody>
+          {% endif %}
         </table>
 
       </div>

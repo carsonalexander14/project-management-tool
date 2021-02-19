@@ -142,65 +142,14 @@ class ApplicationListView(ListView):
     model = Application
     template_name = "applications.html"
 
+    def get_queryset(self):
+        app_status = self.request.GET.get('application_status')
+        applicant = self.request.user
+        return Application.objects.filter(applicant=applicant, application_status=app_status)
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['now'] = timezone.now()
         context['projects_list'] = Project.objects.filter(owner=self.request.user)
         context['positions_list'] = Position.objects.filter(projects__owner=self.request.user)
         return context
-
-""" @login_required
-def application_list_view(request, ApplicationList, ApplicationRequest):
-    try:
-       application_list = ApplicationList.objects.get(user=acceptor)
-    except ApplicationList.DoesNotExist:
-        application_list = ApplicationList(user=acceptor)
-        application_list.save()
-    applications = application_list.applications.all()
-    context = {'applications': applications}
-    is_self = True
-    is_acceptor = False
-    request_sent = ApplicationRequestStatus.NO_REQUEST_SENT.value
-    application_requests = None
-
-    user = request.user
-
-    if applications.filter(pk=user.id):
-        is_acceptor = True
-    else:
-        is_acceptor = False
-        if get_application_request_or_false(sender=acceptor, receiver=user) != False:
-            request_sent = ApplicationRequestStatus.THEM_SENT_TO_YOU.value
-            context['pending_application_request_id'] = get_application_request_or_false(sender=acceptor, receiver=user).id
-        elif get_application_request_or_false(sender=acceptor, receiver=user) != False:
-            request_sent = ApplicationRequestStatus.YOU_SENT_TO_THEM.value
-        else:
-            request_sent = ApplicationRequestStatus.NO_REQUEST_SENT.value
-
-    try:
-        application_requests = ApplicationRequest.objects.filter(receiver=user, is_active=True)
-    except:
-        pass
-
-    context = {'is_self': is_self}
-    context = {'is_acceptor': is_acceptor}
-    context = {'request_sent': request_sent}
-    context = {'application_requests': application_requests}
-    return context """
-
-""" 
-def daily_points(request):
-    dpslabels = []
-    dpsdata = []
-
-    queryset = Project.objects.filter(date_created__date=timezone.now().date())
-    for point in queryset:
-        dpslabels.append(point.owner.display_name)
-        dpsdata.append(float(point.points))
-
-    context = {
-        'dpslabels': dpslabels,
-        'dpsdata': dpsdata,
-    }
-
-    return render(request, 'pointsreport.html', context) """
