@@ -2,6 +2,17 @@
 
 {% block body_content %}
   <body>
+
+    <div class="circle--actions--bar">
+      <nav class="bounds">
+        <ul class="circle--pill--list">
+          <li><a class="selected" href="{% url 'projects:projects' %}">Projects</a></li>
+          <li><a href="{% url 'projects:applications_list' %}">Applications</a></li>
+          <li><a href="{% url 'accounts:profile' %}">Profile</a></li>
+        </ul>
+      </nav>
+    </div>
+
     <div class="bounds circle--page">
       <div class="circle--page--header circle--fluid">
         <div class="circle--fluid--cell circle--fluid--primary">
