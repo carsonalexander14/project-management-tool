@@ -48,7 +48,15 @@
               {% for skill in position.skills.all %}
               <p> {{ skill.title }} </p>
               {% endfor %}
-              <a class="button button-primary">Apply</a>
+              <a href="{% url 'projects:application_apply' %}?position_id={{position.id}}&project_id={{object.id}}" class="button button-primary">Apply</a>
+
+              {% comment %}
+              {% if position.application_status == 'O' %}
+                <a class="button button-primary" value="application_apply">Apply</a>
+              {% endif %}
+              {% if position.application_status = Postion.ACCEPTED %}
+                <a class="button button-primary button-inactive">Position Filled</a>
+              {% endif %} {% endcomment %}
             </li>
             {% endfor %}
             <li>

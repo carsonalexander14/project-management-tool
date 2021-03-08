@@ -62,27 +62,27 @@
               <th class="circle--cell--right">Approval Status</th>
             </tr>
           </thead>
-          {% if position.application_status == Postion.OPEN %}
           <tbody>
-            {% for position in positions_list %}
+            {% for application in applications_list %}
+            {% if application.application_status == 'P' %}
             <tr class="clickable-row" data-href="profile.html">
               <td>
-                <h3>{{ position.owner }}</h3>
-                <p>{{ position.project_master }}</p>
+                <h3>{{ application.applicant }}</h3>
+                <p>{{ application.project }}</p>
               </td>
               <td class="circle--cell--right">
-                <span class="secondary-label">{{ position.position_title }}</span>
+                <span class="secondary-label">{{ application.position }}</span>
               </td>
               <td class="circle--cell--right">
                 <ul class="circle--pill--list">
-                  <li><a href="applications.html">Accept</a></li>
-                  <li><a href="applications.html">Reject</a></li>
+                  <li><a href="{% url 'projects:application_accept' %}?application_id={{application.id}}">Accept</a></li>
+                  <li><a href="{% url 'projects:application_reject' %}?application_id={{application.id}}">Reject</a></li>
                 </ul>
               </td>
             </tr>
+            {% endif %}
             {% endfor %}
           </tbody>
-          {% endif %}
         </table>
 
       </div>

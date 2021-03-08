@@ -61,6 +61,7 @@ class Application(models.Model):
     ]    
 
     application_status = models.CharField(max_length=1, choices=STATUS_CHOICES, default='O')
-    acceptor = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True)
+    acceptor = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="acceptor", null=True)
+    applicant = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="applicant", null=True)
     position = models.ForeignKey(Position, on_delete=models.CASCADE, null=True)
     project = models.ForeignKey(Project, on_delete=models.CASCADE, null=True)

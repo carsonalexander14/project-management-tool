@@ -1,9 +1,9 @@
 from django.contrib import admin
 
 # Register your models here.
-from projects.models import Project, Position
+from projects.models import Project, Position, Application
 
-admin.site.register([Project, Position])
+admin.site.register([Project, Position, Application])
 
 """
 , ApplicationList, ApplicationRequest

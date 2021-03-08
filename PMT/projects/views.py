@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.db.models import F, Q
 from django.utils import timezone
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 
 from django.urls import reverse_lazy, reverse
 from .forms import CreateProject, PositionFormSet
@@ -137,19 +137,49 @@ def search_projects(request):
     return render(request, template_name, context)
 
 
+def application_apply(request):
+    project_id = request.GET.get("project_id",'')
+    position_id = request.GET.get("position_id",'')
+    application = Application.objects.create()
+    application.position = Position.objects.get(id=position_id)
+    application.project = Project.objects.get(id=project_id)
+    application.application_status = Application.PENDING
+    application.applicant = User.objects.get(username = request.user.username)
+    application.save()
+    return HttpResponseRedirect(reverse('projects:applications_list'))
+
+
+def application_accept(request):
+    application_id = request.GET.get("application_id",'')
+    application = Application.objects.get(id=application_id)
+    application.application_status = Application.ACCEPTED
+    application.save()
+    return HttpResponseRedirect(reverse('projects:applications_list'))
+
+
+def application_reject(request):
+    application_id = request.GET.get("application_id",'')
+    application = Application.objects.get(id=application_id)
+    application.application_status = Application.REJECTED
+    application.save()
+    return HttpResponseRedirect(reverse('projects:applications_list'))
+
+
 class ApplicationListView(ListView):
 
     model = Application
     template_name = "applications.html"
 
     def get_queryset(self):
-        app_status = self.request.GET.get('application_status')
-        applicant = self.request.user
-        return Application.objects.filter(applicant=applicant, application_status=app_status)
+        app_status = self.request.GET.get('application_status','P')
+        applicant = self.request.user.id
+        app_list =Application.objects.filter(applicant__id=applicant, application_status=app_status)
+        return app_list
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['now'] = timezone.now()
         context['projects_list'] = Project.objects.filter(owner=self.request.user)
         context['positions_list'] = Position.objects.filter(projects__owner=self.request.user)
+        context['applications_list'] = Application.objects.filter(project__owner=self.request.user)
         return context
