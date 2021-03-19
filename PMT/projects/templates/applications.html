@@ -28,8 +28,11 @@
           <ul class="circle--filter--list">
 
             <li><a>Accepted</a></li>
+            <li><a href="{{ request.path }}?app_status='A' ">Accepted</a></li>
             <li><a>Rejected</a></li>
+            <li><a href="{{ request.path }}?app_status='R' ">Rejected</a></li>
             <li><a>Pending</a></li>
+            <li><a href="{{ request.path }}?app_status='P' ">Pending</a></li>
           </ul>
         </div>
 
@@ -64,7 +67,6 @@
           </thead>
           <tbody>
             {% for application in applications_list %}
-            {% if application.application_status == 'P' %}
             <tr class="clickable-row" data-href="profile.html">
               <td>
                 <h3>{{ application.applicant }}</h3>
@@ -80,7 +82,6 @@
                 </ul>
               </td>
             </tr>
-            {% endif %}
             {% endfor %}
           </tbody>
         </table>
