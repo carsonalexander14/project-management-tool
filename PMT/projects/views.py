@@ -181,5 +181,5 @@ class ApplicationListView(ListView):
         context['now'] = timezone.now()
         context['projects_list'] = Project.objects.filter(owner=self.request.user)
         context['positions_list'] = Position.objects.filter(projects__owner=self.request.user)
-        context['applications_list'] = Application.objects.filter(project__owner=self.request.user)
+        context['application_list'] = Application.objects.filter(project__owner=self.request.user)
         return context

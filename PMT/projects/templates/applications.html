@@ -26,10 +26,9 @@
           </ul>
           <h4>My Application Status</h4>
           <ul class="circle--filter--list">
-
-            <li><a>Accepted</a></li>
-            <li><a>Rejected</a></li>
-            <li><a>Pending</a></li>
+            <li><a href="{{ request.path }}?application_status=A ">Accepted</a></li>
+            <li><a href="{{ request.path }}?application_status=R ">Rejected</a></li>
+            <li><a href="{{ request.path }}?application_status=P ">Pending</a></li>
           </ul>
         </div>
 
@@ -58,13 +57,12 @@
           <thead>
             <tr>
               <th>Applicant</th>
-              <th class="circle--cell--right">Applicant Position</th>
+              <th class="circle--cell--right">Position</th>
               <th class="circle--cell--right">Approval Status</th>
             </tr>
           </thead>
           <tbody>
-            {% for application in applications_list %}
-            {% if application.application_status == 'P' %}
+            {% for application in application_list %}
             <tr class="clickable-row" data-href="profile.html">
               <td>
                 <h3>{{ application.applicant }}</h3>
@@ -73,14 +71,29 @@
               <td class="circle--cell--right">
                 <span class="secondary-label">{{ application.position }}</span>
               </td>
+              {% if application.application_status == 'P' %}
               <td class="circle--cell--right">
                 <ul class="circle--pill--list">
                   <li><a href="{% url 'projects:application_accept' %}?application_id={{application.id}}">Accept</a></li>
                   <li><a href="{% url 'projects:application_reject' %}?application_id={{application.id}}">Reject</a></li>
                 </ul>
               </td>
+              {% endif %}
+              {% if application.application_status == 'A' %}
+              <td class="circle--cell--right">
+                <ul class="circle--pill--list">
+                  <li>Accepted</a></li>
+                </ul>
+              </td>
+              {% endif %}
+              {% if application.application_status == 'R' %}
+              <td class="circle--cell--right">
+                <ul class="circle--pill--list">
+                  <li>Rejected</a></li>
+                </ul>
+              </td>
+              {% endif %}
             </tr>
-            {% endif %}
             {% endfor %}
           </tbody>
         </table>
