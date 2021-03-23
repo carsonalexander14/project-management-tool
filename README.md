@@ -1,4 +1,4 @@
-# Social Team Builder (Project Management Tool)
+# Project Management Tool (Social Team Builder)
 
 This project is the final Unit 12 project for the Python Web Development Team Treehouse Techdegree.
 
