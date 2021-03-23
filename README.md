@@ -8,10 +8,6 @@ Users can sign up to find projects that need help or post their own projects for
 
 ## Features
 
-•	To complete this project, follow the instructions below. If you get stuck, ask a question in the community.
-
-•	Use the supplied files as static assets and example templates for your web site.
-
 •	As a user of the site, I should be able to sign up for an account.
 
 •	As a user of the site, I should be able to log into my account.
