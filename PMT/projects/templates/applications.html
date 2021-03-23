@@ -77,15 +77,23 @@
                 <p>{{ application.project }}</p>
               </td>
               <td class="circle--cell--right">
-                <p>{{ application.acceptor }}</p>
+                <p>{{ application.project.owner }}</p>
               </td>
               {% if application.application_status == 'P' %}
-              <td class="circle--cell--right">
-                <ul class="circle--pill--list">
-                  <li><a href="{% url 'projects:application_accept' %}?application_id={{application.id}}">Accept</a></li>
-                  <li><a href="{% url 'projects:application_reject' %}?application_id={{application.id}}">Reject</a></li>
-                </ul>
-              </td>
+                {% if application.project.owner == self.request.user %}
+                  <td class="circle--cell--right">
+                    <ul class="circle--pill--list">
+                      <li><a href="{% url 'projects:application_accept' %}?application_id={{application.id}}">Accept</a></li>
+                      <li><a href="{% url 'projects:application_reject' %}?application_id={{application.id}}">Reject</a></li>
+                    </ul>
+                  </td>
+                {% else %}
+                  <td class="circle--cell--right">
+                    <ul class="circle--pill--list">
+                      <li>Pending</a></li>
+                    </ul>
+                  </td>
+                {% endif %}
               {% endif %}
               {% if application.application_status == 'A' %}
               <td class="circle--cell--right">
