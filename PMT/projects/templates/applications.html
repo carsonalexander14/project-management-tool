@@ -61,7 +61,8 @@
           <thead>
             <tr>
               <th>Applicant</th>
-              <th class="circle--cell--right">Position</th>
+              <th class="circle--cell--right">Project</th>
+              <th class="circle--cell--right">Acceptor</th>
               <th class="circle--cell--right">Approval Status</th>
             </tr>
           </thead>
@@ -70,10 +71,13 @@
             <tr class="clickable-row" data-href="profile.html">
               <td>
                 <h3>{{ application.applicant }}</h3>
+                <p>{{ application.position }}</p>
+              </td>
+              <td class="circle--cell--right">
                 <p>{{ application.project }}</p>
               </td>
               <td class="circle--cell--right">
-                <span class="secondary-label">{{ application.position }}</span>
+                <p>{{ application.acceptor }}</p>
               </td>
               {% if application.application_status == 'P' %}
               <td class="circle--cell--right">
