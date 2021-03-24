@@ -80,7 +80,7 @@
                 <p>{{ application.project.owner }}</p>
               </td>
               {% if application.application_status == 'P' %}
-                {% if application.project.owner == self.request.user %}
+                {% if application.project.owner.id == user_id %}
                   <td class="circle--cell--right">
                     <ul class="circle--pill--list">
                       <li><a href="{% url 'projects:application_accept' %}?application_id={{application.id}}">Accept</a></li>
