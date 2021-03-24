@@ -173,7 +173,7 @@ class ApplicationListView(ListView):
     def get_queryset(self):
         app_status = self.request.GET.get('application_status','P')
         applicant = self.request.user.id
-        app_list =Application.objects.filter(applicant__id=applicant, application_status=app_status)
+        app_list = Application.objects.filter(applicant__id=applicant, application_status=app_status)
         return app_list
 
     def get_context_data(self, **kwargs):

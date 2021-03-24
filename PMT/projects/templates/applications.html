@@ -78,6 +78,7 @@
               </td>
               <td class="circle--cell--right">
                 <p>{{ application.project.owner }}</p>
+                <p>{{ application.application_status }}</p>
               </td>
               {% if application.application_status == 'P' %}
                 {% if application.project.owner.id == user_id %}
