@@ -176,10 +176,10 @@ class ApplicationListView(ListView):
         project_owner = self.request.user
         applicant_param = self.request.GET.get('applicant')
         powner_param = self.request.GET.get('project_owner')
-        if (applicant_param):
+        if (applicant_param == ''):
             app_list = Application.objects.filter(applicant=applicant, application_status=app_status)
             return app_list
-        elif (powner_param):
+        elif (powner_param == ''):
             app_list = Application.objects.filter(project_owner=project_owner, application_status=app_status)
             return app_list
         
@@ -190,6 +190,10 @@ class ApplicationListView(ListView):
         context['projects_list'] = Project.objects.filter(owner=self.request.user)
         context['positions_list'] = Position.objects.filter(projects__owner=self.request.user)
         context['user_id'] = self.request.user.id
-        context['application_list'] = Application.objects.filter(Q(applicant=self.request.user) | Q(project__owner=self.request.user) | Q(acceptor=self.request.user)).filter(application_status=self.request.GET.get('application_status','P'))
+        application_status = self.request.GET.get('application_status', '')
+        if application_status:
+            context['application_list'] = Application.objects.filter(Q(applicant=self.request.user) | Q(project__owner=self.request.user) | Q(acceptor=self.request.user)).filter(application_status=self.request.GET.get('application_status','P'))
+        else:
+            context['application_list'] = Application.objects.filter(Q(applicant=self.request.user) | Q(project__owner=self.request.user) | Q(acceptor=self.request.user))
         return context
 
