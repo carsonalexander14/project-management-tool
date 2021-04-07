@@ -23,16 +23,16 @@
           <h4>My Position's Applications</h4>
           <ul class="circle--filter--list">
             <li><a href="{% url 'projects:applications_list' %}">All Applications</a></li>
-            <li><a href="{{ request.path }}?application_status=A ">Accepted</a></li>
-            <li><a href="{{ request.path }}?application_status=R ">Rejected</a></li>
-            <li><a href="{{ request.path }}?application_status=P ">Pending</a></li>
+            <li><a href="{{ request.path }}?application_status=A&project_owner">Accepted</a></li>
+            <li><a href="{{ request.path }}?application_status=R&project_owner ">Rejected</a></li>
+            <li><a href="{{ request.path }}?application_status=P&project_owner">Pending</a></li>
           </ul>
           <h4>My Application Status</h4>
           <ul class="circle--filter--list">
             <li><a href="{% url 'projects:applications_list' %}">All Applications</a></li>
-            <li><a href="{{ request.path }}?application_status=A ">Accepted</a></li>
-            <li><a href="{{ request.path }}?application_status=R ">Rejected</a></li>
-            <li><a href="{{ request.path }}?application_status=P ">Pending</a></li>
+            <li><a href="{{ request.path }}?application_status=A&applicant">Accepted</a></li>
+            <li><a href="{{ request.path }}?application_status=R&applicant ">Rejected</a></li>
+            <li><a href="{{ request.path }}?application_status=P&applicant">Pending</a></li>
           </ul>
         </div>
 
