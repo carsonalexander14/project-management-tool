@@ -180,7 +180,7 @@ class ApplicationListView(ListView):
             app_list = Application.objects.filter(applicant=applicant, application_status=app_status)
             return app_list
         elif (powner_param == ''):
-            app_list = Application.objects.filter(project_owner=project_owner, application_status=app_status)
+            app_list = Application.objects.filter(project__owner=project_owner, application_status=app_status)
             return app_list
         
 
