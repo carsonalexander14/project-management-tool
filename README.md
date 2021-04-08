@@ -53,7 +53,7 @@ Users can sign up to find projects that need help or post their own projects for
 
 ### Executing program
 
-Be sure to be rooted into the main PMT folder to create virtual enviroment.
+Be sure to be rooted into the main PMT folder to create virtual enviroment. (cd "C:\project-management-tool-master\PMT")
 
 * Step 1: Create and activate virtual enviroment
 
