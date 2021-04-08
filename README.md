@@ -53,9 +53,9 @@ Users can sign up to find projects that need help or post their own projects for
 
 ### Executing program
 
-* How to run the program
-* Be sure to be rooted into the main PMT folder to create virtual enviroment.
-* Step 1: Create & Run Virtual Enviroment
+Be sure to be rooted into the main PMT folder to create virtual enviroment. (cd "C:\project-management-tool-master\PMT")
+
+* Step 1: Create and activate virtual enviroment
 
 ```
 python3 -m venv env
@@ -65,25 +65,37 @@ python3 -m venv env
 .\env\Scripts\activate  
 ```
 
-* Step 2: Install Requirements.txt
+* Step 2: Install requirements.txt
 
 ```
 pip install -r requirements.txt
 ```
 
-* Step 3: Install Requirements.txt
-
-```
-pip install -r requirements.txt
-```
-
-* Note: PIP will need to install Pillow seperatly so use the following command
+* Note: PIP will need to install Pillow seperatly so use the following command.
 
 ```
 pip install pillow
 ```
 
-* Step 4: Run server and enjoy!
+* Step 3: Rename the file in PMT/PMT/local_dist.py to:
+
+```
+local.py
+```
+
+* Step 4: Migrate the database
+
+```
+python manage.py migrate
+```
+
+* Step 5: Create admin account to login with 
+
+```
+python manage.py createsuperuser
+```
+
+* Step 6: Run server and enjoy!
 
 ```
 python manage.py runserver
