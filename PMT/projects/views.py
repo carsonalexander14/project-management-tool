@@ -170,20 +170,6 @@ class ApplicationListView(ListView):
     model = Application
     template_name = "applications.html"
 
-    def get_queryset(self):
-        app_status = self.request.GET.get('application_status','P')
-        applicant = self.request.user
-        project_owner = self.request.user
-        applicant_param = self.request.GET.get('applicant')
-        powner_param = self.request.GET.get('project_owner')
-        if (applicant_param == ''):
-            app_list = Application.objects.filter(applicant=applicant, application_status=app_status)
-            return app_list
-        elif (powner_param == ''):
-            app_list = Application.objects.filter(project__owner=project_owner, application_status=app_status)
-            return app_list
-        
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['now'] = timezone.now()
@@ -195,5 +181,22 @@ class ApplicationListView(ListView):
             context['application_list'] = Application.objects.filter(Q(applicant=self.request.user) | Q(project__owner=self.request.user) | Q(acceptor=self.request.user)).filter(application_status=self.request.GET.get('application_status','P'))
         else:
             context['application_list'] = Application.objects.filter(Q(applicant=self.request.user) | Q(project__owner=self.request.user) | Q(acceptor=self.request.user))
+        app_status = self.request.GET.get('application_status')
+        applicant = self.request.user
+        project_owner = self.request.user
+        applicant_param = self.request.GET.get('applicant')
+        powner_param = self.request.GET.get('project_owner')
+        if (applicant_param == '' and app_status is not None):
+            app_list = Application.objects.filter(applicant=applicant, application_status=app_status)
+            context['application_list'] = app_list
+        elif (powner_param == '' and app_status is not None):
+            app_list = Application.objects.filter(project__owner=project_owner, application_status=app_status)
+            context['application_list'] = app_list
+        elif (applicant_param == ''):
+            app_list = Application.objects.filter(applicant=applicant)
+            context['application_list'] = app_list
+        elif (powner_param == ''):
+            app_list = Application.objects.filter(project__owner=project_owner)
+            context['application_list'] = app_list
         return context
 

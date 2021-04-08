@@ -22,14 +22,14 @@
         <div class="circle--filter circle--secondary--module">
           <h4>My Position's Applications</h4>
           <ul class="circle--filter--list">
-            <li><a href="{% url 'projects:applications_list' %}">All Applications</a></li>
+            <li><a href="{{ request.path }}?project_owner">All Applications</a></li>
             <li><a href="{{ request.path }}?application_status=A&project_owner">Accepted</a></li>
             <li><a href="{{ request.path }}?application_status=R&project_owner">Rejected</a></li>
             <li><a href="{{ request.path }}?application_status=P&project_owner">Pending</a></li>
           </ul>
           <h4>My Application Status</h4>
           <ul class="circle--filter--list">
-            <li><a href="{% url 'projects:applications_list' %}">All Applications</a></li>
+            <li><a href="{{ request.path }}?applicant">All Applications</a></li>
             <li><a href="{{ request.path }}?application_status=A&applicant">Accepted</a></li>
             <li><a href="{{ request.path }}?application_status=R&applicant">Rejected</a></li>
             <li><a href="{{ request.path }}?application_status=P&applicant">Pending</a></li>
@@ -67,7 +67,7 @@
             </tr>
           </thead>
           <tbody>
-            {% for application in object_list %}
+            {% for application in application_list %}
             <tr class="clickable-row">
               <td>
                 <h3>{{ application.applicant }}</h3>
@@ -78,6 +78,7 @@
               </td>
               <td class="circle--cell--right">
                 <p>{{ application.project.owner }}</p>
+                <p>{{ application.application_status }}</p>
               </td>
               {% if application.application_status == 'P' %}
                 {% if application.project.owner.id == user_id %}
