@@ -44,6 +44,7 @@ Users can sign up to find projects that need help or post their own projects for
 
 * Install the requirements.txt file linked with the project build.
 * Windows 10 or latest Mac OS version required.
+* Python 3
 
 ### Installing
 
@@ -53,9 +54,39 @@ Users can sign up to find projects that need help or post their own projects for
 ### Executing program
 
 * How to run the program
-* Step-by-step bullets
+* Be sure to be rooted into the main PMT folder to create virtual enviroment.
+* Step 1: Create & Run Virtual Enviroment
+
 ```
-code blocks for commands
+python3 -m venv env
+```
+
+```
+.\env\Scripts\activate  
+```
+
+* Step 2: Install Requirements.txt
+
+```
+pip install -r requirements.txt
+```
+
+* Step 3: Install Requirements.txt
+
+```
+pip install -r requirements.txt
+```
+
+* Note: PIP will need to install Pillow seperatly so use the following command
+
+```
+pip install pillow
+```
+
+* Step 4: Run server and enjoy!
+
+```
+python manage.py runserver
 ```
 
 ## Help
