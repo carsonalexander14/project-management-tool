@@ -48,22 +48,13 @@
               {% for skill in position.skills.all %}
               <p> {{ skill.title }} </p>
               {% endfor %}
+              {% if position.application_status == 'A' %}
+              <a class="button button-primary button-inactive">Position Filled</a>
+              {% else %}
               <a href="{% url 'projects:application_apply' %}?position_id={{position.id}}&project_id={{object.id}}" class="button button-primary">Apply</a>
-
-              {% comment %}
-              {% if position.application_status == 'O' %}
-                <a class="button button-primary" value="application_apply">Apply</a>
               {% endif %}
-              {% if position.application_status = Postion.ACCEPTED %}
-                <a class="button button-primary button-inactive">Position Filled</a>
-              {% endif %} {% endcomment %}
             </li>
             {% endfor %}
-            <li>
-              <h3>Temp Holder Do Not Delete</h3>
-              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-              <a class="button button-primary button-inactive">Position Filled</a>
-            </li>
           </ul>
         </div>
   
