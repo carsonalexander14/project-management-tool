@@ -101,6 +101,13 @@ python manage.py createsuperuser
 python manage.py runserver
 ```
 
+## Database setup
+
+* You will need to be sure to setup skills for the platform. Be sure to go into the administrator with your superuser account and add whatever you would like. These skills are open to all users on the platform and is only able to be added by the administrator for a reason. We do not want the regular user to be able to add data that is shown across the board. 
+```
+127.0.0.1:8000/admin/accounts/skill/
+```
+
 ## Help
 
 Any advise for common problems or issues.
