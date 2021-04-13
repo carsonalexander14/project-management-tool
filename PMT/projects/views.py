@@ -6,6 +6,7 @@ from django.utils import timezone
 from django.http import HttpResponse, HttpResponseRedirect
 
 from django.urls import reverse_lazy, reverse
+from notifications.signals import notify
 from .forms import CreateProject, PositionFormSet
 """ from projects.application_request_status import ApplicationRequestStatus
 from projects.utils import get_application_request_or_false """
@@ -154,6 +155,7 @@ def application_accept(request):
     application = Application.objects.get(id=application_id)
     application.application_status = Application.ACCEPTED
     application.save()
+    notify.send(application.acceptor, recipient=application.applicant, verb='accepted')
     return HttpResponseRedirect(reverse('projects:applications_list'))
 
 
@@ -162,6 +164,7 @@ def application_reject(request):
     application = Application.objects.get(id=application_id)
     application.application_status = Application.REJECTED
     application.save()
+    notify.send(application.acceptor, recipient=application.applicant, verb='rejected')
     return HttpResponseRedirect(reverse('projects:applications_list'))
 
 
@@ -169,6 +172,8 @@ class ApplicationListView(ListView):
 
     model = Application
     template_name = "applications.html"
+
+
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -198,5 +203,8 @@ class ApplicationListView(ListView):
         elif (powner_param == ''):
             app_list = Application.objects.filter(project__owner=project_owner)
             context['application_list'] = app_list
+        user = User.objects.get(pk=pk)
+        context['notifications'] = user.notifications.unread()
+        user.mark_all_as_read()
         return context
 

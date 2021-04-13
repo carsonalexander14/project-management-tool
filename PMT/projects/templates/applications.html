@@ -20,6 +20,12 @@
 
       <div class="grid-25">
         <div class="circle--filter circle--secondary--module">
+          <h4>Notifications</h4>
+          <ul class="circle--filter--list">
+          {% for notification in  user.notifications.unread %}
+            <li>You have been {{ application.application_status }} for the {{ application.project }} Project</li>
+          {% endfor %}
+          </ul>
           <h4>My Position's Applications</h4>
           <ul class="circle--filter--list">
             <li><a href="{{ request.path }}?project_owner">All Applications</a></li>
