@@ -155,7 +155,7 @@ def application_accept(request):
     application = Application.objects.get(id=application_id)
     application.application_status = Application.ACCEPTED
     application.save()
-    notify.send(application.acceptor, recipient=application.applicant, verb='accepted')
+    notify.send(request.user, recipient=application.applicant, verb=f'You have been approved for the {application.position} position!')
     return HttpResponseRedirect(reverse('projects:applications_list'))
 
 
@@ -164,7 +164,7 @@ def application_reject(request):
     application = Application.objects.get(id=application_id)
     application.application_status = Application.REJECTED
     application.save()
-    notify.send(application.acceptor, recipient=application.applicant, verb='rejected')
+    notify.send(request.user, recipient=application.applicant, verb=f'You have been rejected for the {application.position} position!')
     return HttpResponseRedirect(reverse('projects:applications_list'))
 
 
@@ -203,8 +203,7 @@ class ApplicationListView(ListView):
         elif (powner_param == ''):
             app_list = Application.objects.filter(project__owner=project_owner)
             context['application_list'] = app_list
-        user = User.objects.get(pk=pk)
+        user = User.objects.get(pk=self.request.user.id)
         context['notifications'] = user.notifications.unread()
-        user.mark_all_as_read()
         return context
 

@@ -1,4 +1,5 @@
 {% extends 'layout.html' %}
+{% load notifications_tags %}
 
 {% block body_content %}
   <body>
@@ -20,10 +21,10 @@
 
       <div class="grid-25">
         <div class="circle--filter circle--secondary--module">
-          <h4>Notifications</h4>
+          <h4 style="color:red">Notifications Total: {% live_notify_badge badge_class="badge" %}</h4>
           <ul class="circle--filter--list">
-          {% for notification in  user.notifications.unread %}
-            <li>You have been {{ application.application_status }} for the {{ application.project }} Project</li>
+          {% for notification in notifications %}
+            <li>{{ notification.verb }}</li>
           {% endfor %}
           </ul>
           <h4>My Position's Applications</h4>

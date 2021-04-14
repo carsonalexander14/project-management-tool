@@ -1,4 +1,5 @@
 {% load static %}
+{% load notifications_tags %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -29,6 +30,7 @@
   <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
   <script type="text/javascript" src="{% static 'js/autogrow.js' %}"></script>
   <script type="text/javascript" src="{% static 'js/global.js' %}"></script>
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 
 
 </head>
@@ -66,6 +68,7 @@
             </nav>
           </div>
         </div>
+        <span style="color:white;"> You have {% live_notify_badge badge_class="badge" %} new notifications in your applications! </span>
       </div>
     </header>
     <div class="wrapper {% block wrapper_class %}{% endblock %}">
