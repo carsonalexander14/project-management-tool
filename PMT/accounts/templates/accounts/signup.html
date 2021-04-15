@@ -5,7 +5,7 @@
 <div class="bounds">
   <div class="grid-30 centered">
     <h2>Sign Up</h2>
-    <form method="POST">
+    <form method="POST" enctype="multipart/form-data">
       {% csrf_token %}
       {{ form.as_p }}
       <input type="submit" class="button-primary" value="Sign Up">
