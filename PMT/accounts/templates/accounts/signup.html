@@ -7,7 +7,16 @@
     <h2>Sign Up</h2>
     <form method="POST">
       {% csrf_token %}
-      {{ form.as_p }}
+      <h1>{{ form.username }}</h1>
+      <h1>{{ form.email }}</h1>
+      <h1>{{ form.display_name }}</h1>
+      <h1>{{ form.bio }}</h1>
+      <div>
+        <img src="{{ user.avatar.url }} "width="250" height="250">
+        {{ form.avatar }}
+      </div>
+      <h1>{{ form.password1 }}</h1>
+      <h1>{{ form.password2 }}</h1>
       <input type="submit" class="button-primary" value="Sign Up">
       <a class="button" href="{% url 'login' %}">Log In</a>
     </form>

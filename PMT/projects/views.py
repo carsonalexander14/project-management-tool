@@ -168,6 +168,12 @@ def application_reject(request):
     return HttpResponseRedirect(reverse('projects:applications_list'))
 
 
+def mark_all_as_read(request):
+    notifications_read = User.objects.get(pk=request.user.id)
+    notifications_read.notifications.mark_all_as_read()
+    notifications_read.save()
+    return HttpResponseRedirect(reverse('projects:applications_list'))
+
 class ApplicationListView(ListView):
 
     model = Application

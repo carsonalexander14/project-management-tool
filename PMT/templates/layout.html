@@ -68,7 +68,9 @@
             </nav>
           </div>
         </div>
+        {% if user.is_authenticated %}
         <span style="color:white;"> You have {% live_notify_badge badge_class="badge" %} new notifications in your applications! </span>
+        {% endif %}
       </div>
     </header>
     <div class="wrapper {% block wrapper_class %}{% endblock %}">
